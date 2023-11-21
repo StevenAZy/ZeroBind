@@ -12,10 +12,10 @@ git clone https://github.com/myprecioushh/ZeroBind.git
 ```
 Install ZeroBind dependencies as following:
 ```bash
-conda install pytorch==2.0.0 torchvision==0.15.0 torchaudio==2.0.0 cu102 -c pytorch
+pip install pytorch==2.0.0 torchvision==0.15.0 torchaudio==2.0.0
 conda install pyg==2.3.0 -c pyg
-conda install lightning==2.0.1 -c conda-forge or pip install lightning==2.0.1
-conda install -c conda-forge rdkit
+pip install lightning==2.0.1
+pip install rdkit
 pip install graphein
 pip install fair-esm
 ```

@@ -56,7 +56,7 @@ def protein_graph(protein_path,pdb_ID):
         with open(file,"rb")as f:
             graph=pickle.load(f)
         return graph.edge_index,graph.x
-    g = construct_graph(config=config, pdb_path=str(protein_path)+str(pdb_ID)+".pdb")
+    g = construct_graph(config=config, path=str(protein_path) + os.sep + str(pdb_ID)+".pdb")
     A = nx.to_numpy_array(g,nonedge=0,weight='distance')
     edge_index=adj2table(A)
     seq=""
@@ -82,12 +82,12 @@ def covid19():
 
 def trainandtest():
     protein_graphs = {}
-    protein_path = os.getcwd() + "/tmp/"
-    train_data = pandas.read_csv("../scaffold_split/protein_train.csv")
+    protein_path = os.getcwd() + os.sep + "tmp"
+    train_data = pandas.read_csv("data/protein_train.csv")
     train_protein_ID = set(train_data["protein_ID"].values.tolist())
-    val_data = pandas.read_csv("../scaffold_split/protein_semi_inductive.csv")
+    val_data = pandas.read_csv("data/protein_semi_inductive.csv")
     val_protein_ID = set(val_data["protein_ID"].values.tolist())
-    test_data = pandas.read_csv("../scaffold_split/protein_transductive.csv")
+    test_data = pandas.read_csv("data/protein_transductive.csv")
     test_protein_ID = set(test_data["protein_ID"].values.tolist())
     for protein_ID in tqdm(test_protein_ID):
         protein_graphs[protein_ID] = protein_graph(protein_path, protein_ID)
@@ -112,7 +112,7 @@ def pre_loading():
                 PDB_IDs.append(PDB_ID)
                 affinitys.append(affinity)
     for protein_ID in tqdm(PDB_IDs):
-        protein_graphs[protein_ID] = protein_graph("/amax/yxwang/GCN/v2020-other-PL/", protein_ID+"/"+protein_ID+"_protein")
+        protein_graphs[protein_ID] = protein_graph("GCN/v2020-other-PL/", protein_ID+ os.sep +protein_ID+"_protein")
     return protein_graphs
 
 protein_graphs=trainandtest()

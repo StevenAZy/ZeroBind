@@ -31,7 +31,7 @@ class Meta(pl.LightningModule):
         parser.add_argument('--k_shot', type=int, default=5)
         parser.add_argument('--k_query', type=int, default=50)
         parser.add_argument('--val_shot', type=int, default=50)
-        parser.add_argument('--num_workers', type=int, default=0)
+        parser.add_argument('--num_workers', type=int, default=16)
         parser.add_argument('--batch_size', type=int, default=4)
 
         parser.add_argument('--project_name', type=str, default="GCN_maml")

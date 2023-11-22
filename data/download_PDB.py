@@ -1,30 +1,32 @@
 import os
 import wget
-
 from rich.progress import track
 
-# path = os.getcwd() + os.sep + 'data' +  os.sep + 'AlphaFoldID.txt'
+DOWNLOAD_URL = 'https://files.rcsb.org/download'
 
-# with open(path, 'r') as f:
-#     uniprotnames = f.readlines()[1:]
-#     for uniprotname in uniprotnames:
-#         url = f'https://alphafold.ebi.ac.uk/files/AF-{uniprotname[:-2]}-F1-model_v4.pdb'
-#         out_path = os.getcwd() + os.sep + 'tmp' +  os.sep + f'AF-{uniprotname[:-2]}-F1-model_v4.pdb'
-#         wget.download(url, out=out_path)
+filter_pdbid = ['2ZEB', '1MFV', '1HJO', '1CDL']
+pdbid_text_path = './data/PDBID.txt'
 
-
-
-path = os.getcwd() + os.sep + 'data' +  os.sep + 'PDBID.txt'
-
-with open(path, 'r') as f:
+uniprot_pdbid_dict = {}
+pdb_urls = []
+with open(pdbid_text_path, 'r') as f:
     lines = f.readlines()[1:]
-    lines = [line.replace('\n', '').replace('\r', '') for line in lines]
+    for line in track(lines):
+        uniprot, pdbid = line.split('\t')
+        uniprot, pdbid = uniprot.replace('\n', ''), pdbid.replace('\n', '')
+        if pdbid not in filter_pdbid:
+            # uniprot_pdbid_dict[pdbid] = uniprot
+            try:
+                if os.path.exists(f'tmp/{uniprot}.pdb'):
+                    continue
+                wget.download(f'{DOWNLOAD_URL}/{pdbid}.pdb', out=f'tmp/{uniprot}.pdb')
+            except:
+                print(pdbid)
+                continue
 
-print(lines)
-for line in track(lines):
-    with open('tmp.txt', 'a') as f:
-        f.write(line.split('\t')[-1] + ' ')
+#         pdb_urls.append(f'{DOWNLOAD_URL}/{pdbid}.pdb')
 
+# for pdb_url in pdb_urls:
+#     wget.download(pdb_url, out=f'./tmp/{uniprot_pdbid_dict[]}')
 
-
-
+# print(uniprot_pdbid_dict)

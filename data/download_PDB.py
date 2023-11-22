@@ -6,6 +6,7 @@ DOWNLOAD_URL = 'https://files.rcsb.org/download'
 
 filter_pdbid = ['2ZEB', '1MFV', '1HJO', '1CDL']
 pdbid_text_path = './data/PDBID.txt'
+alphafoldid_path = './data/AlphaFoldID.txt'
 
 uniprot_pdbid_dict = {}
 pdb_urls = []
@@ -24,9 +25,16 @@ with open(pdbid_text_path, 'r') as f:
                 print(pdbid)
                 continue
 
-#         pdb_urls.append(f'{DOWNLOAD_URL}/{pdbid}.pdb')
 
-# for pdb_url in pdb_urls:
-#     wget.download(pdb_url, out=f'./tmp/{uniprot_pdbid_dict[]}')
+with open(alphafoldid_path, 'r') as f:
+    lines = f.readlines()[1:]
+    for line in track(lines):
+        id = line.replace('\n', '')
+        try:
+            if os.path.exists(f'tmp/{uniprot}.pdb'):
+                continue
+            wget.download(f'https://alphafold.ebi.ac.uk/files/AF-{id}-F1-model_v4.pdb', out=f'tmp/{id}.pdb')
+        except:
+            print(id)
+            continue
 
-# print(uniprot_pdbid_dict)

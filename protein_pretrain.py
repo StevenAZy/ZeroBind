@@ -90,7 +90,12 @@ def trainandtest():
     test_data = pandas.read_csv("data/protein_transductive.csv")
     test_protein_ID = set(test_data["protein_ID"].values.tolist())
     for protein_ID in tqdm(test_protein_ID):
-        protein_graphs[protein_ID] = protein_graph(protein_path, protein_ID)
+        try:
+            protein_graphs[protein_ID] = protein_graph(protein_path, protein_ID)
+        except:
+            with open('record.txt', 'a') as f:
+                f.write(protein_ID + '\n')
+            continue
     return protein_graphs
 
 def pretrain_init(protein_ID):

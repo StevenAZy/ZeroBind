@@ -5,7 +5,8 @@ from torch.nn import functional as F
 from torch.utils.data import DataLoader
 import random
 from functools import partial
-from pre_process import train_molecules, test_molecules, test_explan
+# from pre_process import train_molecules, test_molecules, test_explan
+from pre_process import train_molecules, test_molecules
 from torch_geometric.data import DataLoader as GNN_DataLoader
 import numpy as np
 from collections import defaultdict
@@ -220,7 +221,7 @@ class GCNMoleculeDataModule(LightningDataModule):
         self.test = test
         self.explanation = explanation
         if self.explanation:
-            self.explan_molecule = test_explan()
+            # self.explan_molecule = test_explan()
             self.explan_batch = Test_valBatchSampler(self.explan_molecule, self.val_shot)
         elif self.test:
             self.test_molecule = test_molecules()

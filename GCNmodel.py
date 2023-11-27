@@ -256,7 +256,7 @@ class GCN_DTIMAML(pl.LightningModule):
 
         return [pred,label] # ,few_loss,few_acc,few_auroc,few_auprc,few_F1]
 
-    def validation_epoch_end(self, outputs):
+    def on_validation_epoch_end(self, outputs):
         preds = []
         labels = []
 

@@ -22,7 +22,9 @@ def cli_main():
     parser = Meta.add_model_specific_args(parser)
     args = parser.parse_args()
     pl.seed_everything(42)
-    molecule_data = GCNMoleculeDataModule.from_argparse_args(args)
+    # molecule_data = GCNMoleculeDataModule.from_argparse_args(args)
+    molecule_data = GCNMoleculeDataModule(num_workers=args.num_workers, batch_size=args.batch_size,
+                                          k_shot=args.k_shot, k_query=args.k_query, val_shot=args.val_shot, test=args.test, explanation=args.explanation)
     if not args.test and not args.explanation:
         time = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         print(time)

@@ -18,6 +18,7 @@ pip install lightning==2.0.1
 pip install rdkit
 pip install graphein
 pip install fair-esm
+pip install wandb
 ```
 ## Train
 Multiple hyperparameters can be selected in meta.py. 

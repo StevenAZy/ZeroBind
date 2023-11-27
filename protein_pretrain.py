@@ -50,6 +50,7 @@ def adj2table(adj):
                 edge_index[0].append(i)
                 edge_index[1].append(j)
     return torch.tensor(edge_index,dtype=torch.long)
+
 def protein_graph(protein_path,pdb_ID):
     file="./pickle_protein_graph/"+pdb_ID+".pkl"
     if os.path.exists(file):

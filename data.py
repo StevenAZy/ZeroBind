@@ -7,7 +7,8 @@ import random
 from functools import partial
 # from pre_process import train_molecules, test_molecules, test_explan
 from pre_process import train_molecules, test_molecules
-from torch_geometric.data import DataLoader as GNN_DataLoader
+# from torch_geometric.data import DataLoader as GNN_DataLoader
+from torch_geometric.loader import DataLoader as GNN_DataLoader
 import numpy as np
 from collections import defaultdict
 from torch_geometric.data import Data

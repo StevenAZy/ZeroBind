@@ -9,6 +9,7 @@ import torch
 import pandas
 import warnings
 import pickle
+import json
 from torch_geometric.data import Data
 
 from tqdm import tqdm
@@ -90,7 +91,9 @@ def trainandtest():
     val_protein_ID = set(val_data["protein_ID"].values.tolist())
     test_data = pandas.read_csv("data/protein_transductive.csv")
     test_protein_ID = set(test_data["protein_ID"].values.tolist())
-    for protein_ID in tqdm(test_protein_ID):
+
+    all_protein_ID =set.union(train_protein_ID, val_protein_ID, test_protein_ID)
+    for protein_ID in tqdm(all_protein_ID):
         try:
             protein_graphs[protein_ID] = protein_graph(protein_path, protein_ID)
         except:
@@ -100,8 +103,8 @@ def trainandtest():
     return protein_graphs
 
 def pretrain_init(protein_ID):
-
-    return protein_graphs[protein_ID]
+    path = './tmp'
+    return protein_graph(path, protein_ID)
 
 def pre_loading():
     protein_graphs = {}
@@ -121,6 +124,6 @@ def pre_loading():
         protein_graphs[protein_ID] = protein_graph("GCN/v2020-other-PL/", protein_ID+ os.sep +protein_ID+"_protein")
     return protein_graphs
 
-protein_graphs=trainandtest()
+# protein_graphs=trainandtest()
 
 

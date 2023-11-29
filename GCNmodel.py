@@ -69,6 +69,8 @@ class GCN_DTIMAML(pl.LightningModule):
                                                                     total_num_inner_loop_steps=self.num_inner_steps)
         self.inner_loop_optimizer.initialise(
             names_weights_dict=self.get_inner_loop_parameter_dict(params=self.model.named_parameters()))
+    
+        self.validation_step_outputs = []
 
     def configure_optimizers(self):
         optimizer = torch.optim.AdamW(self.model.parameters(),lr=self.meta_lr,weight_decay=self.weight_decay)
@@ -253,14 +255,14 @@ class GCN_DTIMAML(pl.LightningModule):
         pred = torch.sigmoid(pred).detach().cpu()
         label = label.unsqueeze(1).detach().cpu()
 
-
+        self.validation_step_outputs.append([pred,label])
         return [pred,label] # ,few_loss,few_acc,few_auroc,few_auprc,few_F1]
 
-    def on_validation_epoch_end(self, outputs):
+    def on_validation_epoch_end(self):
         preds = []
         labels = []
 
-        for single_output in outputs:
+        for single_output in self.validation_step_outputs:
             preds.append(single_output[0])
             labels.append(single_output[1])
 
@@ -464,5 +466,5 @@ class GCN_DTIMAML(pl.LightningModule):
         return best_val_loss, best_acc, best_auroc, best_auprc, best_F1
 
 
-if __name__ == "__main__":
-    protein_graph("3eiy")
+# if __name__ == "__main__":
+#     protein_graph("3eiy")

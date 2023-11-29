@@ -37,7 +37,7 @@ def cli_main():
                         os.remove(os.path.join(root, name))  # 删除文件
                     for name in dirs:
                         os.rmdir(os.path.join(root, name))
-        wandb_logger = WandbLogger(name=args.project_name, project="GCN_maml")
+        # wandb_logger = WandbLogger(name=args.project_name, project="GCN_maml")
         args.iteration=molecule_data.iterations
         molecule_model = GCN_DTIMAML(args=args)
 
@@ -50,7 +50,9 @@ def cli_main():
             mode='max',
             save_last=True,
         )
-        trainer = pl.Trainer(devices=[0],accelerator="gpu",logger=wandb_logger,max_epochs=args.total_epoch,callbacks=[checkpoint_callback]
+        # trainer = pl.Trainer(devices=[0],accelerator="gpu",logger=wandb_logger,max_epochs=args.total_epoch,callbacks=[checkpoint_callback]
+        #                  ,log_every_n_steps=1)
+        trainer = pl.Trainer(devices=[0],accelerator="gpu", max_epochs=args.total_epoch, callbacks=[checkpoint_callback]
                          ,log_every_n_steps=1)
 
         trainer.callbacks.append(LearningRateMonitor(logging_interval='step'))

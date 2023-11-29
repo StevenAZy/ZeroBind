@@ -29,6 +29,7 @@ def pretrain_protein(data):
     feat=token_representations.squeeze(0)[1:len(data[0][1])+1]
 
     return feat
+
 def graph_node(pdb_ID,seq):
     if len(seq)>1022:
         seq_feat=[]
@@ -43,6 +44,7 @@ def graph_node(pdb_ID,seq):
         seq_feat=pretrain_protein(data)
 
     return seq_feat
+
 def adj2table(adj):
     edge_index=[[],[]]
     for i in range(adj.shape[0]):
@@ -73,6 +75,7 @@ def protein_graph(protein_path,pdb_ID):
         pickle.dump(graph, f)
 
     return edge_index,node_feat.detach()
+
 def covid19():
     protein_graphs = {}
     covid_path = os.getcwd() + "/covid 19/"

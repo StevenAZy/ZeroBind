@@ -29,7 +29,6 @@ def pretrain_protein(data):
     feat=token_representations.squeeze(0)[1:len(data[0][1])+1]
 
     return feat
-
 def graph_node(pdb_ID,seq):
     if len(seq)>1022:
         seq_feat=[]
@@ -44,7 +43,6 @@ def graph_node(pdb_ID,seq):
         seq_feat=pretrain_protein(data)
 
     return seq_feat
-
 def adj2table(adj):
     edge_index=[[],[]]
     for i in range(adj.shape[0]):
@@ -75,7 +73,6 @@ def protein_graph(protein_path,pdb_ID):
         pickle.dump(graph, f)
 
     return edge_index,node_feat.detach()
-
 def covid19():
     protein_graphs = {}
     covid_path = os.getcwd() + "/covid 19/"
@@ -96,6 +93,31 @@ def trainandtest():
     test_protein_ID = set(test_data["protein_ID"].values.tolist())
 
     all_protein_ID =set.union(train_protein_ID, val_protein_ID, test_protein_ID)
+
+    # path = 'pickle_protein_graph'
+    # saved_pkls = [pkl.split('.')[0] for pkl in os.listdir(path)]
+
+    # no_saved_pkls = []
+    # for id in all_protein_ID:
+    #     if id not in saved_pkls:
+    #         no_saved_pkls.append(id)
+
+    # print(len(train_data))
+    # print(len(val_data))
+    # print(len(test_data))
+    # print('=' * 100)
+    # train_data = train_data[~train_data['protein_ID'].isin(no_saved_pkls)]
+    # val_data = val_data[~val_data['protein_ID'].isin(no_saved_pkls)]
+    # test_data = test_data[~test_data['protein_ID'].isin(no_saved_pkls)]
+
+    # print(len(train_data))
+    # print(len(val_data))
+    # print(len(test_data))
+
+    # train_data.to_csv('data/protein_train.csv', index=False)
+    # val_data.to_csv('data/protein_semi_inductive.csv', index=False)
+    # test_data.to_csv('data/protein_transductive.csv', index=False)
+
     for protein_ID in tqdm(all_protein_ID):
         try:
             protein_graphs[protein_ID] = protein_graph(protein_path, protein_ID)
@@ -108,6 +130,7 @@ def trainandtest():
 def pretrain_init(protein_ID):
     path = './tmp'
     return protein_graph(path, protein_ID)
+    # return protein_graphs[protein_ID]
 
 def pre_loading():
     protein_graphs = {}

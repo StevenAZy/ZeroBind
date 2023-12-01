@@ -56,7 +56,7 @@ class GCN_DTIMAML(pl.LightningModule):
         self.model = forwardmodel(args.protein_dim1, args.protein_dim2, args.protein_dim3, args.molecule_dim1,
                                   args.molecule_dim2, args.hidden_dim, args.hidden_dim2)
         self.meta_lr = args.meta_lr
-        self.Attention=MultiHeadAttention(args.protein_dim3,attention_dropout_rate=args.attention_dropout_rate,num_heads=args.num_heads)
+        self.Attention=MultiHeadAttention(hidden_size=args.protein_dim2, attention_dropout_rate=args.attention_dropout_rate, num_heads=args.num_heads)
         self.task_lr = args.task_lr
         self.few_lr = args.few_lr
         self.total_epoch = args.total_epoch
